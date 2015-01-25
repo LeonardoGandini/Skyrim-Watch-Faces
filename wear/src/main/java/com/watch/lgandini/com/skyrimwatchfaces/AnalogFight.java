@@ -106,20 +106,17 @@ public class AnalogFight extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.fight);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_fight);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
             mHourPaint = new Paint();
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.ROUND);
-            mHourPaint.setARGB(255, 249, 255, 54);
-
 
             mMinutePaint = new Paint();
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.ROUND);
-            mMinutePaint.setARGB(255, 255, 255, 255);
 
             mSecondPaint = new Paint();
             mSecondPaint.setARGB(255, 54, 195, 250);
@@ -228,8 +225,12 @@ public class AnalogFight extends CanvasWatchFaceService {
             if (isInAmbientMode()) {
                 mMinutePaint.setStrokeWidth(6.f);
                 mHourPaint.setStrokeWidth(8.f);
+                mMinutePaint.setARGB(255, 255, 255, 255);
+                mHourPaint.setARGB(255, 255, 255, 255);
             }
             if (!isInAmbientMode()) {
+                mHourPaint.setARGB(255, 249, 255, 54);
+                mMinutePaint.setARGB(255, 255, 255, 255);
                 mHourPaint.setStrokeWidth(4.f);
                 mMinutePaint.setStrokeWidth(3.f);
             }

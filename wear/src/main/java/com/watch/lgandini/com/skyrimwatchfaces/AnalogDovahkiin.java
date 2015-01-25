@@ -106,7 +106,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.dovahkiin);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_dovahkiin);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
