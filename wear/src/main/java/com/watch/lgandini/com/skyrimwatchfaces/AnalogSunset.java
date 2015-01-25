@@ -15,23 +15,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.wearable.watchface.CanvasWatchFaceService;
+import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.watch.lgandini.com.skyrimwatchfaces.R;
-
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-
-/**
- * Created by Leonardo Gandini - leonardogandini.com on 1/24/15.
- */
-
 public class AnalogSunset extends CanvasWatchFaceService {
     private static final String TAG = "AnalogSunset";
+
     /**
      * Update rate in milliseconds for interactive mode. We update once a second to advance the
      * second hand.
@@ -91,6 +86,8 @@ public class AnalogSunset extends CanvasWatchFaceService {
 
         Bitmap mBackgroundBitmap;
         Bitmap mBackgroundScaledBitmap;
+        Bitmap mBackgroundAmbient;
+        Bitmap mBackgroundScaledAmbient;
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -109,6 +106,9 @@ public class AnalogSunset extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.calmsunset);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
+
 
             mHourPaint = new Paint();
             mHourPaint.setARGB(255, 255, 255, 255);
@@ -126,10 +126,10 @@ public class AnalogSunset extends CanvasWatchFaceService {
             mSecondPaint.setARGB(255, 255, 255, 10);
             mSecondPaint.setStrokeWidth(2.f);
             mSecondPaint.setAntiAlias(true);
-            mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+            // mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
 
             mTickPaint = new Paint();
-            mTickPaint.setARGB(155, 255, 255, 255);
+            mTickPaint.setARGB(185, 255, 255, 255);
             mTickPaint.setStrokeWidth(1.f);
             mTickPaint.setAntiAlias(true);
 
@@ -171,9 +171,9 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mHourPaint.setAntiAlias(antiAlias);
                 mMinutePaint.setAntiAlias(antiAlias);
                 mSecondPaint.setAntiAlias(antiAlias);
-
                 mTickPaint.setAntiAlias(antiAlias);
             }
+
             invalidate();
 
             // Whether the timer should be running depends on whether we're in ambient mode (as well
@@ -184,37 +184,54 @@ public class AnalogSunset extends CanvasWatchFaceService {
         @Override
         public void onInterruptionFilterChanged(int interruptionFilter) {
             super.onInterruptionFilterChanged(interruptionFilter);
-            boolean inMuteMode = (interruptionFilter == AnalogSunset.INTERRUPTION_FILTER_NONE);
+            boolean inMuteMode = (interruptionFilter == WatchFaceService.INTERRUPTION_FILTER_NONE);
             if (mMute != inMuteMode) {
                 mMute = inMuteMode;
                 mHourPaint.setAlpha(inMuteMode ? 100 : 255);
                 mMinutePaint.setAlpha(inMuteMode ? 100 : 255);
                 mSecondPaint.setAlpha(inMuteMode ? 80 : 255);
-
                 invalidate();
             }
         }
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            mTime.setToNow();
-
             /**-4 sweep-**/long now = System.currentTimeMillis();
             /**-4 sweep-**/int milliseconds = (int) (now % 1000);
+
+            mTime.setToNow();
 
             int width = bounds.width();
             int height = bounds.height();
 
+            // Draw the background, scaled to fit.
+            if (mBackgroundScaledBitmap == null
+                    || mBackgroundScaledBitmap.getWidth() != width
+                    || mBackgroundScaledBitmap.getHeight() != height) {
+                mBackgroundScaledBitmap = Bitmap.createScaledBitmap(mBackgroundBitmap,
+                        width, height, true /* filter */);
+            }
+            canvas.drawBitmap(mBackgroundScaledBitmap, 0, 0, null);
 
-            if (!isInAmbientMode()) {
-                // Draw the background, scaled to fit.
-                if (mBackgroundScaledBitmap == null
-                        || mBackgroundScaledBitmap.getWidth() != width
-                        || mBackgroundScaledBitmap.getHeight() != height) {
-                    mBackgroundScaledBitmap = Bitmap.createScaledBitmap(mBackgroundBitmap,
+            if (isInAmbientMode()) {
+                if (mBackgroundScaledAmbient == null
+                        || mBackgroundScaledAmbient.getWidth() != width
+                        || mBackgroundScaledAmbient.getHeight() != height) {
+                    mBackgroundScaledAmbient = Bitmap.createScaledBitmap(mBackgroundAmbient,
                             width, height, true /* filter */);
                 }
-                canvas.drawBitmap(mBackgroundScaledBitmap, 0, 0, null);
+                canvas.drawBitmap(mBackgroundScaledAmbient, 0, 0, null);
+
+
+
+            }
+            if (isInAmbientMode()) {
+                mMinutePaint.setStrokeWidth(8.f);
+                mHourPaint.setStrokeWidth(10.f);
+            }
+            if (!isInAmbientMode()) {
+                mHourPaint.setStrokeWidth(4.f);
+                mMinutePaint.setStrokeWidth(3.f);
             }
             // Find the center. Ignore the window insets so that, on round watches with a
             // "chin", the watch face is centered on the entire screen, not just the usable
@@ -236,14 +253,17 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
 
 
-            //float secRot = mTime.second / 30f * (float) Math.PI;
-            /**-4 sweep-**/float seconds = mTime.second + milliseconds / 1000f;
-            float secRot = seconds / 30f * (float) Math.PI;
+            float secRot = mTime.second / 30f * (float) Math.PI;
+
+            /**-4 sweep-**/
+            /*float seconds = mTime.second + milliseconds / 1000f;
+            float secRot = seconds / 30f * (float) Math.PI;*/
+
             int minutes = mTime.minute;
             float minRot = minutes / 30f * (float) Math.PI;
             float hrRot = ((mTime.hour + (minutes / 60f)) / 6f ) * (float) Math.PI;
 
-            float secLength = centerX - 20;
+            float secLength = centerX -20; /*was -20*/
             float minLength = centerX - 40;
             float hrLength = centerX - 80;
 
@@ -261,15 +281,11 @@ public class AnalogSunset extends CanvasWatchFaceService {
             float hrY = (float) -Math.cos(hrRot) * hrLength;
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
-            if (isInAmbientMode()) {
-                mHourPaint.setARGB(255, 93, 255, 93);
-                mMinutePaint.setARGB(255, 93, 255, 93);
-            }
             //**-4sweep Draw every frame as long as we're visible and in interactive mode.
           /*  if (isVisible() && !isInAmbientMode()) {
                 invalidate();
             }*/
-        }
+        }/**End OnDraw**/
 
         @Override
         public void onVisibilityChanged(boolean visible) {
@@ -284,6 +300,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 // Update time zone in case it changed while we weren't visible.
                 mTime.clear(TimeZone.getDefault().getID());
                 mTime.setToNow();
+
             } else {
                 unregisterReceiver();
             }
@@ -332,8 +349,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
             return isVisible() && !isInAmbientMode();
         }
 
-
     }
-
 }
 
