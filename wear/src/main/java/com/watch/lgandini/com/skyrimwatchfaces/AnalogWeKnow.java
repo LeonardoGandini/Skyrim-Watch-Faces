@@ -106,7 +106,7 @@ public class AnalogWeKnow extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.weknow);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_weknow);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
@@ -226,8 +226,8 @@ public class AnalogWeKnow extends CanvasWatchFaceService {
 
             }
             if (isInAmbientMode()) {
-                mMinutePaint.setStrokeWidth(8.f);
-                mHourPaint.setStrokeWidth(10.f);
+                mMinutePaint.setStrokeWidth(5.f);
+                mHourPaint.setStrokeWidth(5.f);
             }
             if (!isInAmbientMode()) {
                 mHourPaint.setStrokeWidth(4.f);

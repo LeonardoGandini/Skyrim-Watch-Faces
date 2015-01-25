@@ -106,7 +106,7 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.skyrim);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_skyrim);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
@@ -127,8 +127,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
 
             mTickPaint = new Paint();
-            mTickPaint.setARGB(105, 8, 207, 250);
-            mTickPaint.setStrokeWidth(2.f);
             mTickPaint.setAntiAlias(true);
 
 
@@ -225,12 +223,16 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
 
             }
             if (isInAmbientMode()) {
-                mMinutePaint.setStrokeWidth(4.f);
+                mMinutePaint.setStrokeWidth(5.f);
                 mHourPaint.setStrokeWidth(5.f);
+                mTickPaint.setARGB(100, 255, 255, 255);
+                mTickPaint.setStrokeWidth(3.f);
             }
             if (!isInAmbientMode()) {
-                mHourPaint.setStrokeWidth(2.f);
-                mMinutePaint.setStrokeWidth(2.f);
+                mHourPaint.setStrokeWidth(4.f);
+                mMinutePaint.setStrokeWidth(3.f);
+                mTickPaint.setARGB(105, 8, 207, 250);
+                mTickPaint.setStrokeWidth(2.f);
             }
             // Find the center. Ignore the window insets so that, on round watches with a
             // "chin", the watch face is centered on the entire screen, not just the usable
@@ -239,7 +241,7 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             float centerY = height / 2f;
 
             // Draw the ticks.
-            float innerTickRadius = centerX - 10;
+            float innerTickRadius = centerX - 20;
             float outerTickRadius = centerX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
                 float tickRot = (float) (tickIndex * Math.PI * 2 / 4);

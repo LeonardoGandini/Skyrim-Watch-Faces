@@ -106,19 +106,17 @@ public class AnalogSunset extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.calmsunset);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_sunset);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
             mHourPaint = new Paint();
             mHourPaint.setARGB(255, 255, 255, 255);
-            mHourPaint.setStrokeWidth(3.f);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.SQUARE);
 
             mMinutePaint = new Paint();
             mMinutePaint.setARGB(255, 255, 255, 255);
-            mMinutePaint.setStrokeWidth(3.f);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
 
@@ -226,8 +224,8 @@ public class AnalogSunset extends CanvasWatchFaceService {
 
             }
             if (isInAmbientMode()) {
-                mMinutePaint.setStrokeWidth(8.f);
-                mHourPaint.setStrokeWidth(10.f);
+                mMinutePaint.setStrokeWidth(5.f);
+                mHourPaint.setStrokeWidth(5.f);
             }
             if (!isInAmbientMode()) {
                 mHourPaint.setStrokeWidth(4.f);
