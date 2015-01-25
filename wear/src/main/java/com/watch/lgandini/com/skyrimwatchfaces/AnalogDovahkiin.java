@@ -112,13 +112,11 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
 
             mHourPaint = new Paint();
             mHourPaint.setARGB(255, 240, 240, 240);
-            mHourPaint.setStrokeWidth(4.f);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.SQUARE);
 
             mMinutePaint = new Paint();
             mMinutePaint.setARGB(255, 240, 240, 240);
-            mMinutePaint.setStrokeWidth(4.f);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
 
@@ -231,8 +229,8 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
                 mHourPaint.setStrokeWidth(8.f);
             }
             if (!isInAmbientMode()) {
-                mHourPaint.setStrokeWidth(4.f);
-                mMinutePaint.setStrokeWidth(4.f);
+                mHourPaint.setStrokeWidth(5.f);
+                mMinutePaint.setStrokeWidth(5.f);
             }
             // Find the center. Ignore the window insets so that, on round watches with a
             // "chin", the watch face is centered on the entire screen, not just the usable
