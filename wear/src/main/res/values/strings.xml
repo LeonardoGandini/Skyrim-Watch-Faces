@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Skyrim Watch Faces</string>
+    <string name="dovahkiin_name">Skyrim Dovahkiin</string>
+    <string name="fight_name">Skyrim Fight</string>
+    <string name="landscape_name">Skyrim Landscape</string>
+    <string name="weknow_name">Skyrim We Know</string>
+    <string name="skyrim_name">Skyrim</string>
+    <string name="sunset_name">Skyrim Sunset</string>
+</resources>
