@@ -252,6 +252,7 @@ public class AnalogWeKnow extends CanvasWatchFaceService {
                         centerX + outerX, centerY + outerY, mTickPaint);
             }
 
+
             //float secRot = mTime.second / 30f * (float) Math.PI;
 
             /**-4 sweep-**/
