@@ -197,8 +197,9 @@ public class AnalogSunset extends CanvasWatchFaceService {
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            /**-4 sweep-**/long now = System.currentTimeMillis();
             mTime.setToNow();
+
+            /**-4 sweep-**/long now = System.currentTimeMillis();
             /**-4 sweep-**/int milliseconds = (int) (now % 1000);
 
             int width = bounds.width();
