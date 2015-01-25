@@ -15,23 +15,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.wearable.watchface.CanvasWatchFaceService;
+import android.support.wearable.watchface.WatchFaceService;
 import android.support.wearable.watchface.WatchFaceStyle;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.watch.lgandini.com.skyrimwatchfaces.R;
-
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-
-/**
- * Created by Leonardo Gandini - leonardogandini.com on 1/24/15.
- */
-
 public class AnalogFight extends CanvasWatchFaceService {
     private static final String TAG = "AnalogFight";
+
     /**
      * Update rate in milliseconds for interactive mode. We update once a second to advance the
      * second hand.
@@ -49,7 +44,7 @@ public class AnalogFight extends CanvasWatchFaceService {
         Paint mHourPaint;
         Paint mMinutePaint;
         Paint mSecondPaint;
-      //  Paint mTickPaint;
+       // Paint mTickPaint;
         boolean mMute;
         Time mTime;
 
@@ -91,6 +86,8 @@ public class AnalogFight extends CanvasWatchFaceService {
 
         Bitmap mBackgroundBitmap;
         Bitmap mBackgroundScaledBitmap;
+        Bitmap mBackgroundAmbient;
+        Bitmap mBackgroundScaledAmbient;
 
         @Override
         public void onCreate(SurfaceHolder holder) {
@@ -109,27 +106,30 @@ public class AnalogFight extends CanvasWatchFaceService {
             Drawable backgroundDrawable = resources.getDrawable(R.drawable.fight);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambientmodebg);
+            mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
+
 
             mHourPaint = new Paint();
-            mHourPaint.setARGB(255, 255, 108, 10);
-            mHourPaint.setStrokeWidth(3.f);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.ROUND);
+            mHourPaint.setARGB(255, 249, 255, 54);
+
 
             mMinutePaint = new Paint();
-            mMinutePaint.setARGB(255, 255, 108, 10);
-            mMinutePaint.setStrokeWidth(3.f);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.ROUND);
+            mMinutePaint.setARGB(255, 255, 255, 255);
 
             mSecondPaint = new Paint();
-            mSecondPaint.setARGB(255, 0, 237, 232);
+            mSecondPaint.setARGB(255, 54, 195, 250);
             mSecondPaint.setStrokeWidth(2.f);
             mSecondPaint.setAntiAlias(true);
             mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
 
-           /* mTickPaint = new Paint();
-            mTickPaint.setARGB(155, 0, 0, 0);
+/*
+            mTickPaint = new Paint();
+            mTickPaint.setARGB(255, 70, 70, 70);
             mTickPaint.setStrokeWidth(2.f);
             mTickPaint.setAntiAlias(true);*/
 
@@ -151,15 +151,15 @@ public class AnalogFight extends CanvasWatchFaceService {
             }
         }
 
-       /* @Override
+      /*  @Override
         public void onTimeTick() {
             super.onTimeTick();
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "onTimeTick: ambient = " + isInAmbientMode());
             }
             invalidate();
-        }*/
-
+        }
+*/
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
@@ -171,9 +171,9 @@ public class AnalogFight extends CanvasWatchFaceService {
                 mHourPaint.setAntiAlias(antiAlias);
                 mMinutePaint.setAntiAlias(antiAlias);
                 mSecondPaint.setAntiAlias(antiAlias);
-
                 //mTickPaint.setAntiAlias(antiAlias);
             }
+
             invalidate();
 
             // Whether the timer should be running depends on whether we're in ambient mode (as well
@@ -184,13 +184,12 @@ public class AnalogFight extends CanvasWatchFaceService {
         @Override
         public void onInterruptionFilterChanged(int interruptionFilter) {
             super.onInterruptionFilterChanged(interruptionFilter);
-            boolean inMuteMode = (interruptionFilter == AnalogFight.INTERRUPTION_FILTER_NONE);
+            boolean inMuteMode = (interruptionFilter == WatchFaceService.INTERRUPTION_FILTER_NONE);
             if (mMute != inMuteMode) {
                 mMute = inMuteMode;
                 mHourPaint.setAlpha(inMuteMode ? 100 : 255);
                 mMinutePaint.setAlpha(inMuteMode ? 100 : 255);
                 mSecondPaint.setAlpha(inMuteMode ? 80 : 255);
-
                 invalidate();
             }
         }
@@ -198,22 +197,41 @@ public class AnalogFight extends CanvasWatchFaceService {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             /**-4 sweep-**/long now = System.currentTimeMillis();
-            mTime.setToNow();
             /**-4 sweep-**/int milliseconds = (int) (now % 1000);
+
+            mTime.setToNow();
 
             int width = bounds.width();
             int height = bounds.height();
 
+            // Draw the background, scaled to fit.
+            if (mBackgroundScaledBitmap == null
+                    || mBackgroundScaledBitmap.getWidth() != width
+                    || mBackgroundScaledBitmap.getHeight() != height) {
+                mBackgroundScaledBitmap = Bitmap.createScaledBitmap(mBackgroundBitmap,
+                        width, height, true /* filter */);
+            }
+            canvas.drawBitmap(mBackgroundScaledBitmap, 0, 0, null);
 
-            if (!isInAmbientMode()) {
-                // Draw the background, scaled to fit.
-                if (mBackgroundScaledBitmap == null
-                        || mBackgroundScaledBitmap.getWidth() != width
-                        || mBackgroundScaledBitmap.getHeight() != height) {
-                    mBackgroundScaledBitmap = Bitmap.createScaledBitmap(mBackgroundBitmap,
+            if (isInAmbientMode()) {
+                if (mBackgroundScaledAmbient == null
+                        || mBackgroundScaledAmbient.getWidth() != width
+                        || mBackgroundScaledAmbient.getHeight() != height) {
+                    mBackgroundScaledAmbient = Bitmap.createScaledBitmap(mBackgroundAmbient,
                             width, height, true /* filter */);
                 }
-                canvas.drawBitmap(mBackgroundScaledBitmap, 0, 0, null);
+                canvas.drawBitmap(mBackgroundScaledAmbient, 0, 0, null);
+
+
+
+            }
+            if (isInAmbientMode()) {
+                mMinutePaint.setStrokeWidth(6.f);
+                mHourPaint.setStrokeWidth(8.f);
+            }
+            if (!isInAmbientMode()) {
+                mHourPaint.setStrokeWidth(4.f);
+                mMinutePaint.setStrokeWidth(3.f);
             }
             // Find the center. Ignore the window insets so that, on round watches with a
             // "chin", the watch face is centered on the entire screen, not just the usable
@@ -222,7 +240,7 @@ public class AnalogFight extends CanvasWatchFaceService {
             float centerY = height / 2f;
 
             // Draw the ticks.
-           /* float innerTickRadius = centerX - 10;
+            /*float innerTickRadius = centerX - 10;
             float outerTickRadius = centerX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
                 float tickRot = (float) (tickIndex * Math.PI * 2 / 12);
@@ -234,14 +252,18 @@ public class AnalogFight extends CanvasWatchFaceService {
                         centerX + outerX, centerY + outerY, mTickPaint);
             }*/
 
+
             //float secRot = mTime.second / 30f * (float) Math.PI;
-            /**-4 sweep-**/float seconds = mTime.second + milliseconds / 1000f;
+
+            /**-4 sweep-**/
+            float seconds = mTime.second + milliseconds / 1000f;
             float secRot = seconds / 30f * (float) Math.PI;
+
             int minutes = mTime.minute;
             float minRot = minutes / 30f * (float) Math.PI;
             float hrRot = ((mTime.hour + (minutes / 60f)) / 6f ) * (float) Math.PI;
 
-            float secLength = centerX - 20;
+            float secLength = centerX - 10; /*was -20*/
             float minLength = centerX - 40;
             float hrLength = centerX - 80;
 
@@ -259,15 +281,11 @@ public class AnalogFight extends CanvasWatchFaceService {
             float hrY = (float) -Math.cos(hrRot) * hrLength;
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
-            if (isInAmbientMode()) {
-                mHourPaint.setARGB(255, 93, 255, 93);
-                mMinutePaint.setARGB(255, 93, 255, 93);
-            }
             //**-4sweep Draw every frame as long as we're visible and in interactive mode.
             if (isVisible() && !isInAmbientMode()) {
                 invalidate();
             }
-        }
+        }/**End OnDraw**/
 
         @Override
         public void onVisibilityChanged(boolean visible) {
@@ -278,16 +296,12 @@ public class AnalogFight extends CanvasWatchFaceService {
 
             if (visible) {
                 registerReceiver();
-
-                // Update time zone in case it changed while we weren't visible.
                 mTime.clear(TimeZone.getDefault().getID());
                 mTime.setToNow();
+
             } else {
                 unregisterReceiver();
             }
-
-            // Whether the timer should be running depends on whether we're visible (as well as
-            // whether we're in ambient mode), so we may need to start or stop the timer.
             updateTimer();
         }
 
@@ -308,10 +322,7 @@ public class AnalogFight extends CanvasWatchFaceService {
             AnalogFight.this.unregisterReceiver(mTimeZoneReceiver);
         }
 
-        /**
-         * Starts the {@link #mUpdateTimeHandler} timer if it should be running and isn't currently
-         * or stops it if it shouldn't be running but currently is.
-         */
+
         private void updateTimer() {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "updateTimer");
@@ -322,16 +333,10 @@ public class AnalogFight extends CanvasWatchFaceService {
             }
         }
 
-        /**
-         * Returns whether the {@link #mUpdateTimeHandler} timer should be running. The timer should
-         * only run when we're visible and in interactive mode.
-         */
         private boolean shouldTimerBeRunning() {
             return isVisible() && !isInAmbientMode();
         }
 
-
     }
-
 }
 
