@@ -26,11 +26,6 @@ import java.util.concurrent.TimeUnit;
 
 public class AnalogSunset extends CanvasWatchFaceService {
     private static final String TAG = "AnalogSunset";
-
-    /**
-     * Update rate in milliseconds for interactive mode. We update once a second to advance the
-     * second hand.
-     */
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
@@ -48,7 +43,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
         boolean mMute;
         Time mTime;
 
-        /** Handler to update the time once a second in interactive mode. */
         final Handler mUpdateTimeHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
@@ -77,11 +71,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
         };
         boolean mRegisteredTimeZoneReceiver = false;
-
-        /**
-         * Whether the display supports fewer bits for each color in ambient mode. When true, we
-         * disable anti-aliasing in ambient mode.
-         */
         boolean mLowBitAmbient;
 
         Bitmap mBackgroundBitmap;
@@ -173,9 +162,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
 
             invalidate();
-
-            // Whether the timer should be running depends on whether we're in ambient mode (as well
-            // as whether we're visible), so we may need to start or stop the timer.
             updateTimer();
         }
 
@@ -202,7 +188,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
             int width = bounds.width();
             int height = bounds.height();
 
-            // Draw the background, scaled to fit.
             if (mBackgroundScaledBitmap == null
                     || mBackgroundScaledBitmap.getWidth() != width
                     || mBackgroundScaledBitmap.getHeight() != height) {
@@ -219,9 +204,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
                             width, height, true /* filter */);
                 }
                 canvas.drawBitmap(mBackgroundScaledAmbient, 0, 0, null);
-
-
-
             }
             if (isInAmbientMode()) {
                 mMinutePaint.setStrokeWidth(5.f);
@@ -231,13 +213,11 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mHourPaint.setStrokeWidth(4.f);
                 mMinutePaint.setStrokeWidth(3.f);
             }
-            // Find the center. Ignore the window insets so that, on round watches with a
-            // "chin", the watch face is centered on the entire screen, not just the usable
-            // portion.
+
             float centerX = width / 2f;
             float centerY = height / 2f;
 
-            // Draw the ticks.
+            //ticks.
             float innerTickRadius = centerX - 10;
             float outerTickRadius = centerX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
@@ -279,7 +259,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
             float hrY = (float) -Math.cos(hrRot) * hrLength;
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
-            //**-4sweep Draw every frame as long as we're visible and in interactive mode.
+            //**-4sweep
           /*  if (isVisible() && !isInAmbientMode()) {
                 invalidate();
             }*/
@@ -295,16 +275,12 @@ public class AnalogSunset extends CanvasWatchFaceService {
             if (visible) {
                 registerReceiver();
 
-                // Update time zone in case it changed while we weren't visible.
                 mTime.clear(TimeZone.getDefault().getID());
                 mTime.setToNow();
 
             } else {
                 unregisterReceiver();
             }
-
-            // Whether the timer should be running depends on whether we're visible (as well as
-            // whether we're in ambient mode), so we may need to start or stop the timer.
             updateTimer();
         }
 
@@ -324,11 +300,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
             mRegisteredTimeZoneReceiver = false;
             AnalogSunset.this.unregisterReceiver(mTimeZoneReceiver);
         }
-
-        /**
-         * Starts the {@link #mUpdateTimeHandler} timer if it should be running and isn't currently
-         * or stops it if it shouldn't be running but currently is.
-         */
         private void updateTimer() {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "updateTimer");
@@ -338,11 +309,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
             }
         }
-
-        /**
-         * Returns whether the {@link #mUpdateTimeHandler} timer should be running. The timer should
-         * only run when we're visible and in interactive mode.
-         */
         private boolean shouldTimerBeRunning() {
             return isVisible() && !isInAmbientMode();
         }

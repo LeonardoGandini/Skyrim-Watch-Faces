@@ -26,11 +26,6 @@ import java.util.concurrent.TimeUnit;
 
 public class AnalogSkyrim extends CanvasWatchFaceService {
     private static final String TAG = "AnalogSkyrim";
-
-    /**
-     * Update rate in milliseconds for interactive mode. We update once a second to advance the
-     * second hand.
-     */
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
@@ -48,7 +43,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
         boolean mMute;
         Time mTime;
 
-        /** Handler to update the time once a second in interactive mode. */
         final Handler mUpdateTimeHandler = new Handler() {
             @Override
             public void handleMessage(Message message) {
@@ -77,11 +71,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             }
         };
         boolean mRegisteredTimeZoneReceiver = false;
-
-        /**
-         * Whether the display supports fewer bits for each color in ambient mode. When true, we
-         * disable anti-aliasing in ambient mode.
-         */
         boolean mLowBitAmbient;
 
         Bitmap mBackgroundBitmap;
@@ -172,9 +161,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             }
 
             invalidate();
-
-            // Whether the timer should be running depends on whether we're in ambient mode (as well
-            // as whether we're visible), so we may need to start or stop the timer.
             updateTimer();
         }
 
@@ -201,7 +187,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             int width = bounds.width();
             int height = bounds.height();
 
-            // Draw the background, scaled to fit.
             if (mBackgroundScaledBitmap == null
                     || mBackgroundScaledBitmap.getWidth() != width
                     || mBackgroundScaledBitmap.getHeight() != height) {
@@ -218,9 +203,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
                             width, height, true /* filter */);
                 }
                 canvas.drawBitmap(mBackgroundScaledAmbient, 0, 0, null);
-
-
-
             }
             if (isInAmbientMode()) {
                 mMinutePaint.setStrokeWidth(5.f);
@@ -234,9 +216,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
                 mTickPaint.setARGB(105, 8, 207, 250);
                 mTickPaint.setStrokeWidth(2.f);
             }
-            // Find the center. Ignore the window insets so that, on round watches with a
-            // "chin", the watch face is centered on the entire screen, not just the usable
-            // portion.
             float centerX = width / 2f;
             float centerY = height / 2f;
 
@@ -282,7 +261,7 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             float hrY = (float) -Math.cos(hrRot) * hrLength;
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
-            //**-4sweep Draw every frame as long as we're visible and in interactive mode.
+            //**-4sweep
             if (isVisible() && !isInAmbientMode()) {
                 invalidate();
             }
