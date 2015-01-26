@@ -26,10 +26,10 @@
                 android:resource="@xml/watch_face"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_dovahkiin"/>
+                android:resource="@drawable/preview_square_dovahkiin"/>
             <meta-data
                 android:name="com.google.android.clockwork.home.preview_circular"
-                android:resource="@drawable/preview_dovahkiin"/>
+                android:resource="@drawable/preview_circular_dovahkiin"/>
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
@@ -47,10 +47,10 @@
                 android:resource="@xml/watch_face"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_weknow"/>
+                android:resource="@drawable/preview_square_weknow"/>
             <meta-data
                 android:name="com.google.android.clockwork.home.preview_circular"
-                android:resource="@drawable/preview_weknow"/>
+                android:resource="@drawable/preview_circular_weknow"/>
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
@@ -68,10 +68,10 @@
                 android:resource="@xml/watch_face"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_fight"/>
+                android:resource="@drawable/preview_square_fight"/>
             <meta-data
                 android:name="com.google.android.clockwork.home.preview_circular"
-                android:resource="@drawable/preview_fight"/>
+                android:resource="@drawable/preview_circular_fight"/>
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
@@ -89,10 +89,10 @@
                 android:resource="@xml/watch_face"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_calmsunset"/>
+                android:resource="@drawable/preview_square_sunset"/>
             <meta-data
                 android:name="com.google.android.clockwork.home.preview_circular"
-                android:resource="@drawable/preview_calmsunset"/>
+                android:resource="@drawable/preview_circular_sunset"/>
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
@@ -110,10 +110,10 @@
                 android:resource="@xml/watch_face"/>
             <meta-data
                 android:name="com.google.android.wearable.watchface.preview"
-                android:resource="@drawable/preview_skyrim"/>
+                android:resource="@drawable/preview_square_skyrim"/>
             <meta-data
                 android:name="com.google.android.clockwork.home.preview_circular"
-                android:resource="@drawable/preview_skyrim"/>
+                android:resource="@drawable/preview_circular_skyrim"/>
             <intent-filter>
                 <action android:name="android.service.wallpaper.WallpaperService"/>
                 <category android:name="com.google.android.wearable.watchface.category.WATCH_FACE"/>
