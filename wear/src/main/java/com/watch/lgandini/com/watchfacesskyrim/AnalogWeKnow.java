@@ -1,31 +1,32 @@
-package com.watch.lgandini.com.skyrimwatchfaces;
+package com.watch.lgandini.com.watchfacesskyrim;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.wearable.watchface.CanvasWatchFaceService;
-import android.support.wearable.watchface.WatchFaceService;
-import android.support.wearable.watchface.WatchFaceStyle;
-import android.text.format.Time;
-import android.util.Log;
-import android.view.SurfaceHolder;
+        import android.content.BroadcastReceiver;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.content.IntentFilter;
+        import android.content.res.Resources;
+        import android.graphics.Bitmap;
+        import android.graphics.Canvas;
+        import android.graphics.Paint;
+        import android.graphics.Rect;
+        import android.graphics.drawable.BitmapDrawable;
+        import android.graphics.drawable.Drawable;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.os.Message;
+        import android.support.wearable.watchface.CanvasWatchFaceService;
+        import android.support.wearable.watchface.WatchFaceService;
+        import android.support.wearable.watchface.WatchFaceStyle;
+        import android.text.format.Time;
+        import android.util.Log;
+        import android.view.SurfaceHolder;
 
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
+        import java.util.TimeZone;
+        import java.util.concurrent.TimeUnit;
 
-public class AnalogSkyrim extends CanvasWatchFaceService {
-    private static final String TAG = "AnalogSkyrim";
+public class AnalogWeKnow extends CanvasWatchFaceService {
+    private static final String TAG = "AnalogWeKnow";
+
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
@@ -85,39 +86,42 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             }
             super.onCreate(holder);
 
-            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogSkyrim.this)
+            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogWeKnow.this)
                     .setCardPeekMode(WatchFaceStyle.PEEK_MODE_SHORT)
                     .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
                     .setShowSystemUiTime(false)
                     .build());
 
-            Resources resources = AnalogSkyrim.this.getResources();
-            Drawable backgroundDrawable = resources.getDrawable(R.drawable.skyrim);
+            Resources resources = AnalogWeKnow.this.getResources();
+            Drawable backgroundDrawable = resources.getDrawable(R.drawable.weknow);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_skyrim);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_weknow);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
             mHourPaint = new Paint();
-            mHourPaint.setARGB(255, 255, 255, 255);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.SQUARE);
+            mHourPaint.setARGB(255, 255, 255, 255);
+
 
             mMinutePaint = new Paint();
-            mMinutePaint.setARGB(255, 255, 255, 255);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
+            mMinutePaint.setARGB(255, 255, 255, 255);
 
             mSecondPaint = new Paint();
-            mSecondPaint.setARGB(255, 255, 189, 8);
+            mSecondPaint.setARGB(255, 70, 70, 70);
             mSecondPaint.setStrokeWidth(2.f);
             mSecondPaint.setAntiAlias(true);
-            mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+           // mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+
 
             mTickPaint = new Paint();
+            mTickPaint.setARGB(255, 70, 70, 70);
+            mTickPaint.setStrokeWidth(2.f);
             mTickPaint.setAntiAlias(true);
-
 
             mTime = new Time();
         }
@@ -137,14 +141,14 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             }
         }
 
-          @Override
-          public void onTimeTick() {
-              super.onTimeTick();
-              if (Log.isLoggable(TAG, Log.DEBUG)) {
-                  Log.d(TAG, "onTimeTick: ambient = " + isInAmbientMode());
-              }
-              invalidate();
-          }
+        @Override
+        public void onTimeTick() {
+            super.onTimeTick();
+            if (Log.isLoggable(TAG, Log.DEBUG)) {
+                Log.d(TAG, "onTimeTick: ambient = " + isInAmbientMode());
+            }
+            invalidate();
+        }
 
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
@@ -159,7 +163,6 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
                 mSecondPaint.setAntiAlias(antiAlias);
                 mTickPaint.setAntiAlias(antiAlias);
             }
-
             invalidate();
             updateTimer();
         }
@@ -187,6 +190,7 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             int width = bounds.width();
             int height = bounds.height();
 
+            // Draw the background, scaled to fit.
             if (mBackgroundScaledBitmap == null
                     || mBackgroundScaledBitmap.getWidth() != width
                     || mBackgroundScaledBitmap.getHeight() != height) {
@@ -207,23 +211,19 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             if (isInAmbientMode()) {
                 mMinutePaint.setStrokeWidth(5.f);
                 mHourPaint.setStrokeWidth(5.f);
-                mTickPaint.setARGB(100, 255, 255, 255);
-                mTickPaint.setStrokeWidth(3.f);
             }
             if (!isInAmbientMode()) {
                 mHourPaint.setStrokeWidth(4.f);
                 mMinutePaint.setStrokeWidth(3.f);
-                mTickPaint.setARGB(105, 8, 207, 250);
-                mTickPaint.setStrokeWidth(2.f);
             }
             float centerX = width / 2f;
             float centerY = height / 2f;
 
-            // Draw the ticks.
-            float innerTickRadius = centerX - 20;
+            //ticks.
+            float innerTickRadius = centerX - 10;
             float outerTickRadius = centerX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
-                float tickRot = (float) (tickIndex * Math.PI * 2 / 4);
+                float tickRot = (float) (tickIndex * Math.PI * 2 / 12);
                 float innerX = (float) Math.sin(tickRot) * innerTickRadius;
                 float innerY = (float) -Math.cos(tickRot) * innerTickRadius;
                 float outerX = (float) Math.sin(tickRot) * outerTickRadius;
@@ -231,10 +231,7 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
                 canvas.drawLine(centerX + innerX, centerY + innerY,
                         centerX + outerX, centerY + outerY, mTickPaint);
             }
-
-
             //float secRot = mTime.second / 30f * (float) Math.PI;
-
             /**-4 sweep-**/
             float seconds = mTime.second + milliseconds / 1000f;
             float secRot = seconds / 30f * (float) Math.PI;
@@ -243,7 +240,7 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             float minRot = minutes / 30f * (float) Math.PI;
             float hrRot = ((mTime.hour + (minutes / 60f)) / 6f ) * (float) Math.PI;
 
-            float secLength = centerX - 10; /*was -20*/
+            float secLength = centerX + 60; /*was -20*/
             float minLength = centerX - 40;
             float hrLength = centerX - 80;
 
@@ -284,25 +281,21 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
             }
             updateTimer();
         }
-
         private void registerReceiver() {
             if (mRegisteredTimeZoneReceiver) {
                 return;
             }
             mRegisteredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            AnalogSkyrim.this.registerReceiver(mTimeZoneReceiver, filter);
+            AnalogWeKnow.this.registerReceiver(mTimeZoneReceiver, filter);
         }
-
         private void unregisterReceiver() {
             if (!mRegisteredTimeZoneReceiver) {
                 return;
             }
             mRegisteredTimeZoneReceiver = false;
-            AnalogSkyrim.this.unregisterReceiver(mTimeZoneReceiver);
+            AnalogWeKnow.this.unregisterReceiver(mTimeZoneReceiver);
         }
-
-
         private void updateTimer() {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "updateTimer");
@@ -312,10 +305,10 @@ public class AnalogSkyrim extends CanvasWatchFaceService {
                 mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
             }
         }
-
         private boolean shouldTimerBeRunning() {
             return isVisible() && !isInAmbientMode();
         }
 
     }
 }
+

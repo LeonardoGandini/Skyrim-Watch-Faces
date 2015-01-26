@@ -1,4 +1,4 @@
-package com.watch.lgandini.com.skyrimwatchfaces;
+package com.watch.lgandini.com.watchfacesskyrim;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,8 +24,8 @@ import android.view.SurfaceHolder;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-public class AnalogDovahkiin extends CanvasWatchFaceService {
-    private static final String TAG = "AnalogDovahkiin";
+public class AnalogSkyrim extends CanvasWatchFaceService {
+    private static final String TAG = "AnalogSkyrim";
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
@@ -39,7 +39,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
         Paint mHourPaint;
         Paint mMinutePaint;
         Paint mSecondPaint;
-        // Paint mTickPaint;
+        Paint mTickPaint;
         boolean mMute;
         Time mTime;
 
@@ -85,41 +85,39 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
             }
             super.onCreate(holder);
 
-            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogDovahkiin.this)
+            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogSkyrim.this)
                     .setCardPeekMode(WatchFaceStyle.PEEK_MODE_SHORT)
                     .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
                     .setShowSystemUiTime(false)
                     .build());
 
-            Resources resources = AnalogDovahkiin.this.getResources();
-            Drawable backgroundDrawable = resources.getDrawable(R.drawable.dovahkiin);
+            Resources resources = AnalogSkyrim.this.getResources();
+            Drawable backgroundDrawable = resources.getDrawable(R.drawable.skyrim);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_dovahkiin);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_skyrim);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
             mHourPaint = new Paint();
-            mHourPaint.setARGB(255, 240, 240, 240);
+            mHourPaint.setARGB(255, 255, 255, 255);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.SQUARE);
 
             mMinutePaint = new Paint();
-            mMinutePaint.setARGB(255, 240, 240, 240);
+            mMinutePaint.setARGB(255, 255, 255, 255);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
 
             mSecondPaint = new Paint();
-            mSecondPaint.setARGB(255, 252, 82, 0);
+            mSecondPaint.setARGB(255, 255, 189, 8);
             mSecondPaint.setStrokeWidth(2.f);
             mSecondPaint.setAntiAlias(true);
             mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
 
-/*
             mTickPaint = new Paint();
-            mTickPaint.setARGB(255, 70, 70, 70);
-            mTickPaint.setStrokeWidth(2.f);
-            mTickPaint.setAntiAlias(true);*/
+            mTickPaint.setAntiAlias(true);
+
 
             mTime = new Time();
         }
@@ -139,7 +137,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
             }
         }
 
-        /*  @Override
+          @Override
           public void onTimeTick() {
               super.onTimeTick();
               if (Log.isLoggable(TAG, Log.DEBUG)) {
@@ -147,7 +145,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
               }
               invalidate();
           }
-  */
+
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
@@ -159,7 +157,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
                 mHourPaint.setAntiAlias(antiAlias);
                 mMinutePaint.setAntiAlias(antiAlias);
                 mSecondPaint.setAntiAlias(antiAlias);
-                //mTickPaint.setAntiAlias(antiAlias);
+                mTickPaint.setAntiAlias(antiAlias);
             }
 
             invalidate();
@@ -181,8 +179,8 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            /**-4 sweep-**///long now = System.currentTimeMillis();
-            /**-4 sweep-**///int milliseconds = (int) (now % 1000);
+            /**-4 sweep-**/long now = System.currentTimeMillis();
+            /**-4 sweep-**/int milliseconds = (int) (now % 1000);
 
             mTime.setToNow();
 
@@ -207,34 +205,39 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
                 canvas.drawBitmap(mBackgroundScaledAmbient, 0, 0, null);
             }
             if (isInAmbientMode()) {
-                mMinutePaint.setStrokeWidth(6.f);
-                mHourPaint.setStrokeWidth(8.f);
+                mMinutePaint.setStrokeWidth(5.f);
+                mHourPaint.setStrokeWidth(5.f);
+                mTickPaint.setARGB(100, 255, 255, 255);
+                mTickPaint.setStrokeWidth(3.f);
             }
             if (!isInAmbientMode()) {
-                mHourPaint.setStrokeWidth(5.f);
-                mMinutePaint.setStrokeWidth(5.f);
+                mHourPaint.setStrokeWidth(4.f);
+                mMinutePaint.setStrokeWidth(3.f);
+                mTickPaint.setARGB(105, 8, 207, 250);
+                mTickPaint.setStrokeWidth(2.f);
             }
             float centerX = width / 2f;
             float centerY = height / 2f;
 
             // Draw the ticks.
-            /*float innerTickRadius = centerX - 10;
+            float innerTickRadius = centerX - 20;
             float outerTickRadius = centerX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
-                float tickRot = (float) (tickIndex * Math.PI * 2 / 12);
+                float tickRot = (float) (tickIndex * Math.PI * 2 / 4);
                 float innerX = (float) Math.sin(tickRot) * innerTickRadius;
                 float innerY = (float) -Math.cos(tickRot) * innerTickRadius;
                 float outerX = (float) Math.sin(tickRot) * outerTickRadius;
                 float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
                 canvas.drawLine(centerX + innerX, centerY + innerY,
                         centerX + outerX, centerY + outerY, mTickPaint);
-            }*/
+            }
 
-            float secRot = mTime.second / 30f * (float) Math.PI;
+
+            //float secRot = mTime.second / 30f * (float) Math.PI;
 
             /**-4 sweep-**/
-           /* float seconds = mTime.second + milliseconds / 1000f;
-            float secRot = seconds / 30f * (float) Math.PI;*/
+            float seconds = mTime.second + milliseconds / 1000f;
+            float secRot = seconds / 30f * (float) Math.PI;
 
             int minutes = mTime.minute;
             float minRot = minutes / 30f * (float) Math.PI;
@@ -259,9 +262,9 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
             //**-4sweep
-           /* if (isVisible() && !isInAmbientMode()) {
+            if (isVisible() && !isInAmbientMode()) {
                 invalidate();
-            }*/
+            }
         }/**End OnDraw**/
 
         @Override
@@ -288,7 +291,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
             }
             mRegisteredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            AnalogDovahkiin.this.registerReceiver(mTimeZoneReceiver, filter);
+            AnalogSkyrim.this.registerReceiver(mTimeZoneReceiver, filter);
         }
 
         private void unregisterReceiver() {
@@ -296,7 +299,7 @@ public class AnalogDovahkiin extends CanvasWatchFaceService {
                 return;
             }
             mRegisteredTimeZoneReceiver = false;
-            AnalogDovahkiin.this.unregisterReceiver(mTimeZoneReceiver);
+            AnalogSkyrim.this.unregisterReceiver(mTimeZoneReceiver);
         }
 
 

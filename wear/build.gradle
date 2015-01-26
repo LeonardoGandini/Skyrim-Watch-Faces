@@ -5,10 +5,10 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
     defaultConfig {
-        applicationId "com.watch.lgandini.com.skyrimwatchfaces"
+        applicationId 'com.watch.lgandini.com.watchfacesskyrim'
         minSdkVersion 20
         targetSdkVersion 21
-        versionCode 4
+        versionCode 6
         versionName "1.0"
     }
     buildTypes {

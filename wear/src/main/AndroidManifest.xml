@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.watch.lgandini.com.skyrimwatchfaces">
+    package="com.watch.lgandini.com.watchfacesskyrim">
 
     <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="21"/>
 
@@ -36,7 +36,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="AnalogWeKnow"
+            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogWeKnow"
             android:allowEmbedded="true"
             android:label="@string/weknow_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -57,7 +57,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="AnalogFight"
+            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogFight"
             android:allowEmbedded="true"
             android:label="@string/fight_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -78,7 +78,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="AnalogSunset"
+            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogSunset"
             android:allowEmbedded="true"
             android:label="@string/sunset_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -99,7 +99,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="AnalogSkyrim"
+            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogSkyrim"
             android:allowEmbedded="true"
             android:label="@string/skyrim_name"
             android:permission="android.permission.BIND_WALLPAPER"

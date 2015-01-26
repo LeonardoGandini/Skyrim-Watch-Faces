@@ -1,4 +1,4 @@
-package com.watch.lgandini.com.skyrimwatchfaces;
+package com.watch.lgandini.com.watchfacesskyrim;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,8 +24,8 @@ import android.view.SurfaceHolder;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
-public class AnalogSunset extends CanvasWatchFaceService {
-    private static final String TAG = "AnalogSunset";
+public class AnalogDovahkiin extends CanvasWatchFaceService {
+    private static final String TAG = "AnalogDovahkiin";
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
@@ -39,7 +39,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
         Paint mHourPaint;
         Paint mMinutePaint;
         Paint mSecondPaint;
-        Paint mTickPaint;
+        // Paint mTickPaint;
         boolean mMute;
         Time mTime;
 
@@ -85,40 +85,41 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
             super.onCreate(holder);
 
-            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogSunset.this)
+            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogDovahkiin.this)
                     .setCardPeekMode(WatchFaceStyle.PEEK_MODE_SHORT)
                     .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
                     .setShowSystemUiTime(false)
                     .build());
 
-            Resources resources = AnalogSunset.this.getResources();
-            Drawable backgroundDrawable = resources.getDrawable(R.drawable.calmsunset);
+            Resources resources = AnalogDovahkiin.this.getResources();
+            Drawable backgroundDrawable = resources.getDrawable(R.drawable.dovahkiin);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_sunset);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_dovahkiin);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
             mHourPaint = new Paint();
-            mHourPaint.setARGB(255, 255, 255, 255);
+            mHourPaint.setARGB(255, 240, 240, 240);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.SQUARE);
 
             mMinutePaint = new Paint();
-            mMinutePaint.setARGB(255, 255, 255, 255);
+            mMinutePaint.setARGB(255, 240, 240, 240);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
 
             mSecondPaint = new Paint();
-            mSecondPaint.setARGB(255, 255, 255, 10);
+            mSecondPaint.setARGB(255, 252, 82, 0);
             mSecondPaint.setStrokeWidth(2.f);
             mSecondPaint.setAntiAlias(true);
-            // mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+            mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
 
+/*
             mTickPaint = new Paint();
-            mTickPaint.setARGB(185, 255, 255, 255);
-            mTickPaint.setStrokeWidth(1.f);
-            mTickPaint.setAntiAlias(true);
+            mTickPaint.setARGB(255, 70, 70, 70);
+            mTickPaint.setStrokeWidth(2.f);
+            mTickPaint.setAntiAlias(true);*/
 
             mTime = new Time();
         }
@@ -138,15 +139,15 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
         }
 
-        @Override
-        public void onTimeTick() {
-            super.onTimeTick();
-            if (Log.isLoggable(TAG, Log.DEBUG)) {
-                Log.d(TAG, "onTimeTick: ambient = " + isInAmbientMode());
-            }
-            invalidate();
-        }
-
+        /*  @Override
+          public void onTimeTick() {
+              super.onTimeTick();
+              if (Log.isLoggable(TAG, Log.DEBUG)) {
+                  Log.d(TAG, "onTimeTick: ambient = " + isInAmbientMode());
+              }
+              invalidate();
+          }
+  */
         @Override
         public void onAmbientModeChanged(boolean inAmbientMode) {
             super.onAmbientModeChanged(inAmbientMode);
@@ -158,7 +159,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mHourPaint.setAntiAlias(antiAlias);
                 mMinutePaint.setAntiAlias(antiAlias);
                 mSecondPaint.setAntiAlias(antiAlias);
-                mTickPaint.setAntiAlias(antiAlias);
+                //mTickPaint.setAntiAlias(antiAlias);
             }
 
             invalidate();
@@ -180,8 +181,8 @@ public class AnalogSunset extends CanvasWatchFaceService {
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
-            /**-4 sweep-**/long now = System.currentTimeMillis();
-            /**-4 sweep-**/int milliseconds = (int) (now % 1000);
+            /**-4 sweep-**///long now = System.currentTimeMillis();
+            /**-4 sweep-**///int milliseconds = (int) (now % 1000);
 
             mTime.setToNow();
 
@@ -206,19 +207,18 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 canvas.drawBitmap(mBackgroundScaledAmbient, 0, 0, null);
             }
             if (isInAmbientMode()) {
-                mMinutePaint.setStrokeWidth(5.f);
-                mHourPaint.setStrokeWidth(5.f);
+                mMinutePaint.setStrokeWidth(6.f);
+                mHourPaint.setStrokeWidth(8.f);
             }
             if (!isInAmbientMode()) {
-                mHourPaint.setStrokeWidth(4.f);
-                mMinutePaint.setStrokeWidth(3.f);
+                mHourPaint.setStrokeWidth(5.f);
+                mMinutePaint.setStrokeWidth(5.f);
             }
-
             float centerX = width / 2f;
             float centerY = height / 2f;
 
-            //ticks.
-            float innerTickRadius = centerX - 10;
+            // Draw the ticks.
+            /*float innerTickRadius = centerX - 10;
             float outerTickRadius = centerX;
             for (int tickIndex = 0; tickIndex < 12; tickIndex++) {
                 float tickRot = (float) (tickIndex * Math.PI * 2 / 12);
@@ -228,20 +228,19 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 float outerY = (float) -Math.cos(tickRot) * outerTickRadius;
                 canvas.drawLine(centerX + innerX, centerY + innerY,
                         centerX + outerX, centerY + outerY, mTickPaint);
-            }
-
+            }*/
 
             float secRot = mTime.second / 30f * (float) Math.PI;
 
             /**-4 sweep-**/
-            /*float seconds = mTime.second + milliseconds / 1000f;
+           /* float seconds = mTime.second + milliseconds / 1000f;
             float secRot = seconds / 30f * (float) Math.PI;*/
 
             int minutes = mTime.minute;
             float minRot = minutes / 30f * (float) Math.PI;
             float hrRot = ((mTime.hour + (minutes / 60f)) / 6f ) * (float) Math.PI;
 
-            float secLength = centerX -20; /*was -20*/
+            float secLength = centerX - 10; /*was -20*/
             float minLength = centerX - 40;
             float hrLength = centerX - 80;
 
@@ -260,7 +259,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
             //**-4sweep
-          /*  if (isVisible() && !isInAmbientMode()) {
+           /* if (isVisible() && !isInAmbientMode()) {
                 invalidate();
             }*/
         }/**End OnDraw**/
@@ -274,7 +273,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
 
             if (visible) {
                 registerReceiver();
-
                 mTime.clear(TimeZone.getDefault().getID());
                 mTime.setToNow();
 
@@ -290,7 +288,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
             mRegisteredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            AnalogSunset.this.registerReceiver(mTimeZoneReceiver, filter);
+            AnalogDovahkiin.this.registerReceiver(mTimeZoneReceiver, filter);
         }
 
         private void unregisterReceiver() {
@@ -298,8 +296,10 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 return;
             }
             mRegisteredTimeZoneReceiver = false;
-            AnalogSunset.this.unregisterReceiver(mTimeZoneReceiver);
+            AnalogDovahkiin.this.unregisterReceiver(mTimeZoneReceiver);
         }
+
+
         private void updateTimer() {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "updateTimer");
@@ -309,10 +309,10 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mUpdateTimeHandler.sendEmptyMessage(MSG_UPDATE_TIME);
             }
         }
+
         private boolean shouldTimerBeRunning() {
             return isVisible() && !isInAmbientMode();
         }
 
     }
 }
-

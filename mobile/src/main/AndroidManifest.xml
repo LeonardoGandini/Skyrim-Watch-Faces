@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.watch.lgandini.com.skyrimwatchfaces">
+    package="com.watch.lgandini.com.watchfacesskyrim">
 
     <uses-feature android:name="android.hardware.type.watch"/>
 
