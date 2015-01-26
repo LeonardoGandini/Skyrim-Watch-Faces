@@ -13,21 +13,33 @@ ADDED from AndroidManifest.xml:1:1
 	android:versionCode
 		INJECTED from AndroidManifest.xml:0:0
 		INJECTED from AndroidManifest.xml:0:0
-application
+uses-feature#android.hardware.type.watch
 ADDED from AndroidManifest.xml:4:5
+	android:name
+		ADDED from AndroidManifest.xml:4:19
+uses-permission#com.google.android.permission.PROVIDE_BACKGROUND
+ADDED from AndroidManifest.xml:6:5
+	android:name
+		ADDED from AndroidManifest.xml:6:22
+uses-permission#android.permission.WAKE_LOCK
+ADDED from AndroidManifest.xml:7:5
+	android:name
+		ADDED from AndroidManifest.xml:7:22
+application
+ADDED from AndroidManifest.xml:9:5
 MERGED from com.android.support:appcompat-v7:21.0.3:16:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from com.google.android.gms:play-services:6.5.87:20:5
 MERGED from com.android.support:support-v4:21.0.3:16:5
 MERGED from AndroidManifest.xml:4:5
 	android:label
-		ADDED from AndroidManifest.xml:6:9
+		ADDED from AndroidManifest.xml:11:9
 	android:allowBackup
-		ADDED from AndroidManifest.xml:5:9
+		ADDED from AndroidManifest.xml:10:9
 	android:icon
-		ADDED from AndroidManifest.xml:7:9
+		ADDED from AndroidManifest.xml:12:9
 	android:theme
-		ADDED from AndroidManifest.xml:8:9
+		ADDED from AndroidManifest.xml:13:9
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5
