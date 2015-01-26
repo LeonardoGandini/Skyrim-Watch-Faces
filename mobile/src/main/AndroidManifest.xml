@@ -1,17 +1,20 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.watch.lgandini.com.watchfacesskyrim">
+<?xml version="1.0" encoding="utf-8"?>
 
-    <uses-feature android:name="android.hardware.type.watch"/>
+<manifest
+package="com.watch.lgandini.com.watchfacesskyrim"
+xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+<uses-sdk android:minSdkVersion="9" android:targetSdkVersion="21"/>
 
-    <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:icon="@drawable/ic_launcher"
-        android:theme="@style/AppTheme">
+<uses-permission android:name="com.google.android.permission.PROVIDE_BACKGROUND"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-    </application>
+<application
+    android:allowBackup="true"
+    android:label="@string/app_name"
+    android:icon="@drawable/ic_launcher"
+    android:theme="@style/AppTheme">
+
+</application>
 
 </manifest>
