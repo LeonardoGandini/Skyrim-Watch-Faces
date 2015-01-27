@@ -1,4 +1,4 @@
-package com.watch.lgandini.com.watchfacesskyrim;
+package com.watch.lgandini.com.skyrimwatchfaces;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

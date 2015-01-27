@@ -1,31 +1,32 @@
-package com.watch.lgandini.com.watchfacesskyrim;
+package com.watch.lgandini.com.skyrimwatchfaces;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.support.wearable.watchface.CanvasWatchFaceService;
-import android.support.wearable.watchface.WatchFaceService;
-import android.support.wearable.watchface.WatchFaceStyle;
-import android.text.format.Time;
-import android.util.Log;
-import android.view.SurfaceHolder;
+        import android.content.BroadcastReceiver;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.content.IntentFilter;
+        import android.content.res.Resources;
+        import android.graphics.Bitmap;
+        import android.graphics.Canvas;
+        import android.graphics.Paint;
+        import android.graphics.Rect;
+        import android.graphics.drawable.BitmapDrawable;
+        import android.graphics.drawable.Drawable;
+        import android.os.Bundle;
+        import android.os.Handler;
+        import android.os.Message;
+        import android.support.wearable.watchface.CanvasWatchFaceService;
+        import android.support.wearable.watchface.WatchFaceService;
+        import android.support.wearable.watchface.WatchFaceStyle;
+        import android.text.format.Time;
+        import android.util.Log;
+        import android.view.SurfaceHolder;
 
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
+        import java.util.TimeZone;
+        import java.util.concurrent.TimeUnit;
 
-public class AnalogSunset extends CanvasWatchFaceService {
-    private static final String TAG = "AnalogSunset";
+public class AnalogWeKnow extends CanvasWatchFaceService {
+    private static final String TAG = "AnalogWeKnow";
+
     private static final long INTERACTIVE_UPDATE_RATE_MS = TimeUnit.SECONDS.toMillis(1);
 
     @Override
@@ -85,39 +86,41 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
             super.onCreate(holder);
 
-            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogSunset.this)
+            setWatchFaceStyle(new WatchFaceStyle.Builder(AnalogWeKnow.this)
                     .setCardPeekMode(WatchFaceStyle.PEEK_MODE_SHORT)
                     .setBackgroundVisibility(WatchFaceStyle.BACKGROUND_VISIBILITY_INTERRUPTIVE)
                     .setShowSystemUiTime(false)
                     .build());
 
-            Resources resources = AnalogSunset.this.getResources();
-            Drawable backgroundDrawable = resources.getDrawable(R.drawable.calmsunset);
+            Resources resources = AnalogWeKnow.this.getResources();
+            Drawable backgroundDrawable = resources.getDrawable(R.drawable.weknow);
             mBackgroundBitmap = ((BitmapDrawable) backgroundDrawable).getBitmap();
 
-            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_sunset);
+            Drawable backgroundDrawableAmb = resources.getDrawable(R.drawable.ambient_weknow);
             mBackgroundAmbient = ((BitmapDrawable) backgroundDrawableAmb).getBitmap();
 
 
             mHourPaint = new Paint();
-            mHourPaint.setARGB(255, 255, 255, 255);
             mHourPaint.setAntiAlias(true);
             mHourPaint.setStrokeCap(Paint.Cap.SQUARE);
+            mHourPaint.setARGB(255, 255, 255, 255);
+
 
             mMinutePaint = new Paint();
-            mMinutePaint.setARGB(255, 255, 255, 255);
             mMinutePaint.setAntiAlias(true);
             mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
+            mMinutePaint.setARGB(255, 255, 255, 255);
 
             mSecondPaint = new Paint();
-            mSecondPaint.setARGB(255, 255, 255, 10);
+            mSecondPaint.setARGB(255, 70, 70, 70);
             mSecondPaint.setStrokeWidth(2.f);
             mSecondPaint.setAntiAlias(true);
-            // mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+           // mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+
 
             mTickPaint = new Paint();
-            mTickPaint.setARGB(185, 255, 255, 255);
-            mTickPaint.setStrokeWidth(1.f);
+            mTickPaint.setARGB(255, 70, 70, 70);
+            mTickPaint.setStrokeWidth(2.f);
             mTickPaint.setAntiAlias(true);
 
             mTime = new Time();
@@ -160,7 +163,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mSecondPaint.setAntiAlias(antiAlias);
                 mTickPaint.setAntiAlias(antiAlias);
             }
-
             invalidate();
             updateTimer();
         }
@@ -188,6 +190,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
             int width = bounds.width();
             int height = bounds.height();
 
+            // Draw the background, scaled to fit.
             if (mBackgroundScaledBitmap == null
                     || mBackgroundScaledBitmap.getWidth() != width
                     || mBackgroundScaledBitmap.getHeight() != height) {
@@ -213,7 +216,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 mHourPaint.setStrokeWidth(4.f);
                 mMinutePaint.setStrokeWidth(3.f);
             }
-
             float centerX = width / 2f;
             float centerY = height / 2f;
 
@@ -229,19 +231,16 @@ public class AnalogSunset extends CanvasWatchFaceService {
                 canvas.drawLine(centerX + innerX, centerY + innerY,
                         centerX + outerX, centerY + outerY, mTickPaint);
             }
-
-
-            float secRot = mTime.second / 30f * (float) Math.PI;
-
+            //float secRot = mTime.second / 30f * (float) Math.PI;
             /**-4 sweep-**/
-            /*float seconds = mTime.second + milliseconds / 1000f;
-            float secRot = seconds / 30f * (float) Math.PI;*/
+            float seconds = mTime.second + milliseconds / 1000f;
+            float secRot = seconds / 30f * (float) Math.PI;
 
             int minutes = mTime.minute;
             float minRot = minutes / 30f * (float) Math.PI;
             float hrRot = ((mTime.hour + (minutes / 60f)) / 6f ) * (float) Math.PI;
 
-            float secLength = centerX -20; /*was -20*/
+            float secLength = centerX + 60; /*was -20*/
             float minLength = centerX - 40;
             float hrLength = centerX - 80;
 
@@ -260,9 +259,9 @@ public class AnalogSunset extends CanvasWatchFaceService {
             canvas.drawLine(centerX, centerY, centerX + hrX, centerY + hrY, mHourPaint);
 
             //**-4sweep
-          /*  if (isVisible() && !isInAmbientMode()) {
+            if (isVisible() && !isInAmbientMode()) {
                 invalidate();
-            }*/
+            }
         }/**End OnDraw**/
 
         @Override
@@ -274,7 +273,6 @@ public class AnalogSunset extends CanvasWatchFaceService {
 
             if (visible) {
                 registerReceiver();
-
                 mTime.clear(TimeZone.getDefault().getID());
                 mTime.setToNow();
 
@@ -283,22 +281,20 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
             updateTimer();
         }
-
         private void registerReceiver() {
             if (mRegisteredTimeZoneReceiver) {
                 return;
             }
             mRegisteredTimeZoneReceiver = true;
             IntentFilter filter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            AnalogSunset.this.registerReceiver(mTimeZoneReceiver, filter);
+            AnalogWeKnow.this.registerReceiver(mTimeZoneReceiver, filter);
         }
-
         private void unregisterReceiver() {
             if (!mRegisteredTimeZoneReceiver) {
                 return;
             }
             mRegisteredTimeZoneReceiver = false;
-            AnalogSunset.this.unregisterReceiver(mTimeZoneReceiver);
+            AnalogWeKnow.this.unregisterReceiver(mTimeZoneReceiver);
         }
         private void updateTimer() {
             if (Log.isLoggable(TAG, Log.DEBUG)) {

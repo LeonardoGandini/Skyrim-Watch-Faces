@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.watch.lgandini.com.watchfacesskyrim">
+    package="com.watch.lgandini.com.skyrimwatchfaces">
 
     <uses-sdk android:minSdkVersion="20" android:targetSdkVersion="21"/>
 
@@ -15,7 +15,7 @@
         android:theme="@android:style/Theme.DeviceDefault">
 
         <service
-            android:name="AnalogDovahkiin"
+            android:name="com.watch.lgandini.com.skyrimwatchfaces.AnalogDovahkiin"
             android:allowEmbedded="true"
             android:label="@string/dovahkiin_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -36,7 +36,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogWeKnow"
+            android:name="com.watch.lgandini.com.skyrimwatchfaces.AnalogWeKnow"
             android:allowEmbedded="true"
             android:label="@string/weknow_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -57,7 +57,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogFight"
+            android:name="com.watch.lgandini.com.skyrimwatchfaces.AnalogFight"
             android:allowEmbedded="true"
             android:label="@string/fight_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -78,7 +78,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogSunset"
+            android:name="com.watch.lgandini.com.skyrimwatchfaces.AnalogSunset"
             android:allowEmbedded="true"
             android:label="@string/sunset_name"
             android:permission="android.permission.BIND_WALLPAPER"
@@ -99,7 +99,7 @@
             </intent-filter>
         </service>
         <service
-            android:name="com.watch.lgandini.com.watchfacesskyrim.AnalogSkyrim"
+            android:name="com.watch.lgandini.com.skyrimwatchfaces.AnalogSkyrim"
             android:allowEmbedded="true"
             android:label="@string/skyrim_name"
             android:permission="android.permission.BIND_WALLPAPER"

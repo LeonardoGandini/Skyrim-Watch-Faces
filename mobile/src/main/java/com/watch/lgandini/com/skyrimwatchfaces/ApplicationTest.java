@@ -1,4 +1,4 @@
-package com.watch.lgandini.com.watchfacesskyrim;
+package com.watch.lgandini.com.skyrimwatchfaces;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
