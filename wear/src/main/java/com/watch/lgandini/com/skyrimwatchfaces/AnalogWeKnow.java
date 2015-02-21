@@ -120,7 +120,7 @@ public class AnalogWeKnow extends CanvasWatchFaceService {
 
             mTickPaint = new Paint();
             mTickPaint.setARGB(255, 70, 70, 70);
-            mTickPaint.setStrokeWidth(2.f);
+            mTickPaint.setStrokeWidth(3.f);
             mTickPaint.setAntiAlias(true);
 
             mTime = new Time();
@@ -214,7 +214,7 @@ public class AnalogWeKnow extends CanvasWatchFaceService {
             }
             if (!isInAmbientMode()) {
                 mHourPaint.setStrokeWidth(4.f);
-                mMinutePaint.setStrokeWidth(3.f);
+                mMinutePaint.setStrokeWidth(4.f);
             }
             float centerX = width / 2f;
             float centerY = height / 2f;

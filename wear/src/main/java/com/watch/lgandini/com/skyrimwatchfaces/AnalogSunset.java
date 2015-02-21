@@ -211,7 +211,7 @@ public class AnalogSunset extends CanvasWatchFaceService {
             }
             if (!isInAmbientMode()) {
                 mHourPaint.setStrokeWidth(4.f);
-                mMinutePaint.setStrokeWidth(3.f);
+                mMinutePaint.setStrokeWidth(4.f);
             }
 
             float centerX = width / 2f;
