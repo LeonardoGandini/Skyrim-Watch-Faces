@@ -5,24 +5,34 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.view.View;
+import android.widget.Button;
+
 
 public class smatoacty extends ActionBarActivity {
 
-    @Override
+    public void buttonOnClick(View v){
+        Uri uri = Uri.parse("http://tamrielma.ps");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+    }
+
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_smatoacty);
     }
 
-
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_smatoacty, menu);
         return true;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -35,5 +45,11 @@ public class smatoacty extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
+
+
+
+
+
+
 }
