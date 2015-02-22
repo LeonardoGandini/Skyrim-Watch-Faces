@@ -7,8 +7,8 @@ android {
         applicationId 'com.watch.lgandini.com.skyrimwatchfaces'
         minSdkVersion 9
         targetSdkVersion 21
-        versionCode 13
-        versionName '1.0.2'
+        versionCode 14
+        versionName '1.0.3'
     }
     buildTypes {
         release {
