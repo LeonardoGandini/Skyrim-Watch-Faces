@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "21.1.2"
     defaultConfig {
         applicationId 'com.watch.lgandini.com.skyrimwatchfaces'
         minSdkVersion 9
-        targetSdkVersion 21
-        versionCode 14
-        versionName '1.0.3'
+        targetSdkVersion 22
+        versionCode 15
+        versionName '1.0.4'
     }
     buildTypes {
         release {
